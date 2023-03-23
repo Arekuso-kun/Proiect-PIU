@@ -8,5 +8,6 @@ namespace InchirieriMasiniLibrary
 {
     class Angajat
     {
+
     }
 }
