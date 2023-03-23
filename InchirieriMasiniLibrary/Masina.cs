@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Proiect_PIU
+namespace InchirieriMasiniLibrary
 {
-    class CMasina
+    class Masina
     {
         private string test;
 
@@ -14,7 +14,7 @@ namespace Proiect_PIU
         {
             return test;
         }
-        public CMasina()
+        public Masina()
         {
             test = "Acesta este un test!";
         }
