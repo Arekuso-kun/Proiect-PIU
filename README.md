@@ -1,3 +1,4 @@
 # Proiect-PIU
-Bîrsan dorin_Alexandru 
+Bîrsan Dorin-Alexandru
+
 grupa 3122a
