@@ -45,5 +45,47 @@ namespace InchirieriMasiniDataManagement
 
             return inchirieri;
         }
+
+        public Inchiriere GetInchiriere(string nume, string prenume)
+        {
+            // instructiunea 'using' va apela streamReader.Close()
+            using (StreamReader streamReader = new StreamReader(numeFisier))
+            {
+                string linieFisier;
+                // citeste cate o linie si creaza un obiect de tip Student
+                // pe baza datelor din linia citita
+                while ((linieFisier = streamReader.ReadLine()) != null)
+                {
+                    Inchiriere inchiriere = new Inchiriere(linieFisier);
+                    if (inchiriere.Nume == nume && inchiriere.Prenume == prenume)
+                    {
+                        return inchiriere;
+                    }
+                }
+            }
+
+            return new Inchiriere();
+        }
+
+        public Inchiriere GetInchiriere(int id)
+        {
+            // instructiunea 'using' va apela streamReader.Close()
+            using (StreamReader streamReader = new StreamReader(numeFisier))
+            {
+                string linieFisier;
+                // citeste cate o linie si creaza un obiect de tip Student
+                // pe baza datelor din linia citita
+                while ((linieFisier = streamReader.ReadLine()) != null)
+                {
+                    Inchiriere inchiriere = new Inchiriere(linieFisier);
+                    if (inchiriere.IdInchiriere == id)
+                    {
+                        return inchiriere;
+                    }
+                }
+            }
+
+            return new Inchiriere();
+        }
     }
 }

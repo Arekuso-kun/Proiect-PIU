@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace InchirieriMasiniLibrary
@@ -25,7 +27,7 @@ namespace InchirieriMasiniLibrary
         private const int PRET = 4;
         private const int DATA_PRELUARE = 5;
         private const int DATA_RETURNARE = 6;
-        public Inchiriere(int idInchiriere, int idMasina, string nume, string prenume, float pret, DateTime dataPreluare, DateTime dataReturnare)
+        public Inchiriere(int idInchiriere = 0, int idMasina = 0, string nume = "NECUNOSCUT", string prenume = "NECUNOSCUT", float pret = 0.0f, DateTime dataPreluare = default, DateTime dataReturnare = default)
         {
             IdInchiriere = idInchiriere;
             IdMasina = idMasina;
@@ -51,7 +53,7 @@ namespace InchirieriMasiniLibrary
         }
         public string ConversieLaSir_PentruFisier()
         {
-            string obiectStudentPentruFisier = string.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}",
+            string obiectInchirierePentruFisier = string.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}",
                 SEPARATOR_PRINCIPAL_FISIER,
                 idInchiriere.ToString(),
                 idMasina.ToString(),
@@ -61,7 +63,20 @@ namespace InchirieriMasiniLibrary
                 (dataPreluare.ToString() ?? " NECUNOSCUT "),
                 (dataReturnare.ToString() ?? " NECUNOSCUT "));
 
-            return obiectStudentPentruFisier;
+            return obiectInchirierePentruFisier;
+        }
+        public string Info()
+        {
+            string infoInchiriere = string.Format("#{0}: {2} {3} a inchiriat masina #{1}",
+                idInchiriere.ToString(),
+                idMasina.ToString(),
+                (nume ?? " NECUNOSCUT "),
+                (prenume ?? " NECUNOSCUT "),
+                (pret.ToString() ?? " NECUNOSCUT "),
+                (dataPreluare.ToString() ?? " NECUNOSCUT "),
+                (dataReturnare.ToString() ?? " NECUNOSCUT "));
+
+            return infoInchiriere;
         }
         public int IdInchiriere
         {
