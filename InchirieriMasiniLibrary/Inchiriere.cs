@@ -16,7 +16,6 @@ namespace InchirieriMasiniLibrary
         private int idMasina;
         private string nume;
         private string prenume;
-        private float pret;
         private DateTime dataPreluare;
         private DateTime dataReturnare;
 
@@ -27,13 +26,12 @@ namespace InchirieriMasiniLibrary
         private const int PRET = 4;
         private const int DATA_PRELUARE = 5;
         private const int DATA_RETURNARE = 6;
-        public Inchiriere(int idInchiriere = 0, int idMasina = 0, string nume = "NECUNOSCUT", string prenume = "NECUNOSCUT", float pret = 0.0f, DateTime dataPreluare = default, DateTime dataReturnare = default)
+        public Inchiriere(int idInchiriere = 0, int idMasina = 0, string nume = "NECUNOSCUT", string prenume = "NECUNOSCUT", DateTime dataPreluare = default, DateTime dataReturnare = default)
         {
             IdInchiriere = idInchiriere;
             IdMasina = idMasina;
             Nume = nume;
             Prenume = prenume;
-            Pret = pret;
             DataPreluare = dataPreluare;
             DataReturnare = dataReturnare;
         }
@@ -45,7 +43,6 @@ namespace InchirieriMasiniLibrary
             idMasina = int.Parse(dateFisier[ID_MASINA]);
             nume = dateFisier[NUME];
             prenume = dateFisier[PRENUME];
-            pret = float.Parse(dateFisier[PRET]);
             dataPreluare = DateTime.Parse(dateFisier[DATA_PRELUARE]);
             dataReturnare = DateTime.Parse(dateFisier[DATA_RETURNARE]);
             // TO DO 
@@ -59,7 +56,6 @@ namespace InchirieriMasiniLibrary
                 idMasina.ToString(),
                 (nume ?? " NECUNOSCUT "),
                 (prenume ?? " NECUNOSCUT "),
-                (pret.ToString() ?? " NECUNOSCUT "),
                 (dataPreluare.ToString() ?? " NECUNOSCUT "),
                 (dataReturnare.ToString() ?? " NECUNOSCUT "));
 
@@ -67,12 +63,11 @@ namespace InchirieriMasiniLibrary
         }
         public string Info()
         {
-            string infoInchiriere = string.Format("#{0}: {2} {3} a inchiriat masina #{1}",
+            string infoInchiriere = string.Format("#{0}: {2} {3} a inchiriat masina #{1} la data de {4} pana la data de {5}",
                 idInchiriere.ToString(),
                 idMasina.ToString(),
                 (nume ?? " NECUNOSCUT "),
                 (prenume ?? " NECUNOSCUT "),
-                (pret.ToString() ?? " NECUNOSCUT "),
                 (dataPreluare.ToString() ?? " NECUNOSCUT "),
                 (dataReturnare.ToString() ?? " NECUNOSCUT "));
 
@@ -97,11 +92,6 @@ namespace InchirieriMasiniLibrary
         {
             get { return prenume; }
             set { prenume = value; }
-        }
-        public float Pret
-        {
-            get { return pret; }
-            set { pret = value; }
         }
         public DateTime DataPreluare
         {

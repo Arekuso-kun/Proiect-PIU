@@ -13,28 +13,74 @@ namespace InchirieriMasini
     {
         static void Main(string[] args)
         {
-            AdministrareInchirieri fisierTest = new AdministrareInchirieri("data.txt");
+            string[][] words = new string[26][];
+
+            if(args.Length != 0) 
+            { 
+                for (int i = 0; i < 26; i++)
+                    words[i] = new string[0];
+
+                for (int i = 1; i < args.Length; i++)
+                {
+                    char firstLetter = Char.ToLower(args[i][0]);
+                    int index = firstLetter - 'a';
+
+                    if (index >= 0 && index < 26)
+                    {
+                        Array.Resize(ref words[index], words[index].Length + 1);
+                        words[index][words[index].Length - 1] = args[i];
+                    }
+                }
+
+                for (int i = 0; i < 26; i++)
+                {
+                    Console.Write((char)(i + 'A') + ": ");
+                    Console.WriteLine(string.Join(", ", words[i]));
+                }
+
+                Console.WriteLine("\nPress any key to continue...");
+                Console.ReadKey();
+            }
+
+            AdministrareInchirieri adminInchirieri = new AdministrareInchirieri("Inchirieri.txt");
+            AdministrareMasini adminMasini = new AdministrareMasini("Masini.txt");
 
             Inchiriere inchiriere = new Inchiriere();
+            Masina masina = new Masina();
 
             int nrInchirieri;
-            int nextID = 1;
-            Inchiriere[] inchirieri_temp = fisierTest.GetInchirieri(out nrInchirieri);
+            int nrMasini;
+            int nextIdInchiriere = 1;
+            int nextIdMasina = 1;
+
+            Inchiriere[] inchirieri_temp = adminInchirieri.GetInchirieri(out nrInchirieri);
             if (nrInchirieri != 0)
-                nextID = inchirieri_temp[nrInchirieri - 1].IdInchiriere;
+                nextIdInchiriere = inchirieri_temp[nrInchirieri - 1].IdInchiriere;
+
+            Masina[] masini_temp = adminMasini.GetMasini(out nrMasini);
+            if (nrMasini != 0)
+                nextIdMasina = masini_temp[nrMasini - 1].IdMasina;
 
             string optiune;
             do
             {
                 Console.Clear();
+                Console.WriteLine(" ---- Inchirieri ---- ");
                 Console.WriteLine("I. Introducere informatii inchiriere");
                 Console.WriteLine("A. Afisare inchiriere");
                 Console.WriteLine("F. Afisare inchirieri din fisier");
                 Console.WriteLine("S. Salvare inchiriere in fisier");
                 Console.WriteLine("K. Cauta inchiriere dupa ID");
                 Console.WriteLine("L. Cauta inchiriere dupa nume");
-                Console.WriteLine("X. Inchidere program");
-                Console.WriteLine("Alegeti o optiune");
+                Console.WriteLine("\n ---- Masini ---- ");
+                Console.WriteLine("1. Introducere informatii masina");
+                Console.WriteLine("2. Afisare masina");
+                Console.WriteLine("3. Afisare masini din fisier");
+                Console.WriteLine("4. Salvare masina in fisier");
+                Console.WriteLine("5. Cauta masina dupa ID");
+                Console.WriteLine("6. Cauta masina dupa marca si model");
+                Console.WriteLine("\nX. Inchidere program");
+                Console.WriteLine("\nAlegeti o optiune...");
                 optiune = Console.ReadLine();
                 Console.WriteLine();
                 switch (optiune.ToUpper())
@@ -54,20 +100,6 @@ namespace InchirieriMasini
                             Console.Write("Introdu ID masina : ");
                             string inputString = Console.ReadLine();
                             valid = int.TryParse(inputString, out idMasina);
-
-                            if (!valid)
-                            {
-                                Console.WriteLine("Invalid input. Please try again.");
-                            }
-                        }
-
-                        float pret = 0.0f;
-                        valid = false;
-                        while (!valid)
-                        {
-                            Console.Write("Introdu pret : ");
-                            string inputString = Console.ReadLine();
-                            valid = float.TryParse(inputString, out pret);
 
                             if (!valid)
                             {
@@ -101,37 +133,40 @@ namespace InchirieriMasini
                                 Console.WriteLine("Invalid format. Please try again.");
                             }
                         }
-                        
-                        inchirieri_temp = fisierTest.GetInchirieri(out nrInchirieri);
-                        if (nrInchirieri != 0)
-                            nextID = inchirieri_temp[nrInchirieri - 1].IdInchiriere;
 
-                        inchiriere = new Inchiriere(nextID, idMasina, nume, prenume, pret, dataPreluare, dataReturnare);
+                        inchirieri_temp = adminInchirieri.GetInchirieri(out nrInchirieri);
+                        if (nrInchirieri != 0)
+                            nextIdInchiriere = inchirieri_temp[nrInchirieri - 1].IdInchiriere;
+
+                        inchiriere = new Inchiriere(nextIdInchiriere, idMasina, nume, prenume, dataPreluare, dataReturnare);
                         Console.WriteLine("\nInchirierea a fost salvata temporar.");
                         Console.ReadKey();
 
                         break;
                     case "A":
                         string infoInchiriere = inchiriere.Info();
-                        Console.WriteLine("Inchirierea {0}", infoInchiriere);
+                        if (inchiriere.IdInchiriere != 0)
+                            Console.WriteLine("Inchirierea {0}", infoInchiriere);
+                        else
+                            Console.WriteLine("Nu a fost introdusa nicio inchiriere.");
                         Console.ReadKey();
 
                         break;
                     case "F":
-                        Inchiriere[] inchirieri = fisierTest.GetInchirieri(out nrInchirieri);
+                        Inchiriere[] inchirieri = adminInchirieri.GetInchirieri(out nrInchirieri);
                         AfisareInchirieri(inchirieri, nrInchirieri);
                         Console.ReadKey();
 
                         break;
                     case "S":
-                        inchirieri_temp = fisierTest.GetInchirieri(out nrInchirieri);
+                        inchirieri_temp = adminInchirieri.GetInchirieri(out nrInchirieri);
                         if (nrInchirieri != 0)
-                            nextID = inchirieri_temp[nrInchirieri - 1].IdInchiriere;
+                            nextIdInchiriere = inchirieri_temp[nrInchirieri - 1].IdInchiriere;
 
                         inchiriere.IdInchiriere = nrInchirieri + 1;
 
                         //adaugare student in fisier
-                        fisierTest.AddInchiriere(inchiriere);
+                        adminInchirieri.AddInchiriere(inchiriere);
                         Console.WriteLine("\nInchirierea a fost salvata in fisier.");
                         Console.ReadKey();
 
@@ -142,9 +177,9 @@ namespace InchirieriMasini
 
                         Console.WriteLine();
 
-                        Inchiriere output_caurate_id = fisierTest.GetInchiriere(id_cautat);
+                        Inchiriere output_caurate_id = adminInchirieri.GetInchiriere(id_cautat);
                         if (output_caurate_id.IdInchiriere != 0)
-                            Console.WriteLine(fisierTest.GetInchiriere(id_cautat).Info());
+                            Console.WriteLine(adminInchirieri.GetInchiriere(id_cautat).Info());
                         else
                             Console.WriteLine("Nu s-a gasit nicio inchiriere.");
                         Console.ReadKey();
@@ -158,11 +193,126 @@ namespace InchirieriMasini
 
                         Console.WriteLine();
 
-                        Inchiriere output_cautare_nume = fisierTest.GetInchiriere(nume_cautat, prenume_cautat);
+                        Inchiriere output_cautare_nume = adminInchirieri.GetInchiriere(nume_cautat, prenume_cautat);
                         if (output_cautare_nume.IdInchiriere != 0)
-                            Console.WriteLine(fisierTest.GetInchiriere(nume_cautat, prenume_cautat).Info());
+                            Console.WriteLine(adminInchirieri.GetInchiriere(nume_cautat, prenume_cautat).Info());
                         else
                             Console.WriteLine("Nu s-a gasit nicio inchiriere.");
+                        Console.ReadKey();
+
+                        break;
+                    case "1":
+                        Console.Write("Introdu marca : ");
+                        string marca = Console.ReadLine();
+                        Console.Write("Introdu model : ");
+                        string model = Console.ReadLine();
+
+                        int nrTrepteViteza = 0;
+                        valid = false;
+                        while (!valid)
+                        {
+                            Console.Write("Introdu numar trepte viteza : ");
+                            string inputString = Console.ReadLine();
+                            valid = int.TryParse(inputString, out nrTrepteViteza);
+
+                            if (!valid)
+                            {
+                                Console.WriteLine("Invalid input. Please try again.");
+                            }
+                        }
+
+                        int anFabricare = 0;
+                        valid = false;
+                        while (!valid)
+                        {
+                            Console.Write("Introdu an fabricare : ");
+                            string inputString = Console.ReadLine();
+                            valid = int.TryParse(inputString, out anFabricare);
+
+                            if (!valid)
+                            {
+                                Console.WriteLine("Invalid input. Please try again.");
+                            }
+                        }
+
+                        float pretPerZi = 0.0f;
+                        valid = false;
+                        while (!valid)
+                        {
+                            Console.Write("Introdu pret per zi : ");
+                            string inputString = Console.ReadLine();
+                            valid = float.TryParse(inputString, out pretPerZi);
+
+                            if (!valid)
+                            {
+                                Console.WriteLine("Invalid input. Please try again.");
+                            }
+                        }
+
+                        masini_temp = adminMasini.GetMasini(out nrMasini);
+                        if (nrMasini != 0)
+                            nextIdMasina = masini_temp[nrMasini - 1].IdMasina;
+
+                        masina = new Masina(nextIdMasina, marca, model, nrTrepteViteza, anFabricare, pretPerZi, true);
+                        Console.WriteLine("\nMasina a fost salvata temporar.");
+                        Console.ReadKey();
+
+                        break;
+                    case "2":
+                        string infoMasina = masina.Info();
+                        if (masina.IdMasina != 0)
+                            Console.WriteLine("Masina {0}", infoMasina);
+                        else
+                            Console.WriteLine("Nu a fost introdusa nicio masina.");
+                        Console.ReadKey();
+
+                        break;
+                    case "3":
+                        Masina[] masini = adminMasini.GetMasini(out nrMasini);
+                        AfisareMasini(masini, nrMasini);
+                        Console.ReadKey();
+
+                        break;
+                    case "4":
+                        masini_temp = adminMasini.GetMasini(out nrMasini);
+                        if (nrInchirieri != 0)
+                            nextIdInchiriere = inchirieri_temp[nrInchirieri - 1].IdInchiriere;
+
+                        masina.IdMasina = nrMasini + 1;
+
+                        //adaugare student in fisier
+                        adminMasini.AddMasina(masina);
+                        Console.WriteLine("\nMasina a fost salvata in fisier.");
+                        Console.ReadKey();
+
+                        break;
+                    case "5":
+                        Console.Write("Introdu ID : ");
+                        id_cautat = int.Parse(Console.ReadLine());
+
+                        Console.WriteLine();
+
+                        Masina output_caurate_id_masina = adminMasini.GetMasina(id_cautat);
+                        if (output_caurate_id_masina.IdMasina != 0)
+                            Console.WriteLine(adminMasini.GetMasina(id_cautat).Info());
+                        else
+                            Console.WriteLine("Nu s-a gasit nicio masina.");
+                        Console.ReadKey();
+
+                        break;
+                    case "6":
+                        Console.Write("Introdu marca : ");
+                        string marca_cautata = Console.ReadLine();
+                        Console.Write("Introdu model : ");
+                        string model_cautat = Console.ReadLine();
+
+                        Console.WriteLine();
+
+                        Masina output_cautare_marca_model = adminMasini.GetMasina(marca_cautata, model_cautat);
+                        if (output_cautare_marca_model.IdMasina != 0)
+                            Console.WriteLine(adminMasini.GetMasina(marca_cautata, model_cautat).Info());
+                        else
+                            Console.WriteLine("Nu s-a gasit nicio masina.");
                         Console.ReadKey();
 
                         break;
@@ -171,6 +321,7 @@ namespace InchirieriMasini
                         return;
                     default:
                         Console.WriteLine("Optiune inexistenta");
+                        Console.ReadKey();
 
                         break;
                 }
@@ -183,6 +334,13 @@ namespace InchirieriMasini
             Console.WriteLine("Inchirierile sunt:");
             for (int contor = 0; contor < nrInchirieri; contor++)
                 Console.WriteLine(inchirieri[contor].Info());
+        }
+
+        public static void AfisareMasini(Masina[] masini, int nrMasini)
+        {
+            Console.WriteLine("Masinile sunt:");
+            for (int contor = 0; contor < nrMasini; contor++)
+                Console.WriteLine(masini[contor].Info());
         }
     }
 }
