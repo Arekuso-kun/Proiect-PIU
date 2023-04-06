@@ -198,6 +198,29 @@ namespace InchirieriMasini
                         Console.Write("Introdu model : ");
                         string model = Console.ReadLine();
 
+                        int culoare = 0;
+                        valid = false;
+                        while (!valid)
+                        {
+                            Console.WriteLine("1 - Rosu");
+                            Console.WriteLine("2 - Albastru");
+                            Console.WriteLine("3 - Verde");
+                            Console.WriteLine("4 - Galben");
+                            Console.WriteLine("5 - Negru");
+                            Console.WriteLine("6 - Alb");
+                            Console.WriteLine("7 - Argintiu");
+                            Console.WriteLine("8 - Gri");
+                            Console.WriteLine("9 - Alta");
+                            Console.WriteLine("Introdu culoare : ");
+                            string inputString = Console.ReadLine();
+                            valid = int.TryParse(inputString, out culoare);
+
+                            if (!valid)
+                            {
+                                Console.WriteLine("Invalid input. Please try again.");
+                            }
+                        }
+
                         int nrTrepteViteza = 0;
                         valid = false;
                         while (!valid)
@@ -242,7 +265,7 @@ namespace InchirieriMasini
 
                         update_nr_nextId_masini(ref nrMasini, ref nextIdMasina, adminMasini);
 
-                        masina = new Masina(nextIdMasina, marca, model, nrTrepteViteza, anFabricare, pretPerZi, true);
+                        masina = new Masina(nextIdMasina, marca, model, culoare, nrTrepteViteza, anFabricare, pretPerZi, true);
                         Console.WriteLine("\nMasina a fost salvata temporar.");
                         Console.ReadKey();
 
