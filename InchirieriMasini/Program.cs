@@ -48,18 +48,13 @@ namespace InchirieriMasini
             Inchiriere inchiriere = new Inchiriere();
             Masina masina = new Masina();
 
-            int nrInchirieri;
-            int nrMasini;
+            int nrInchirieri = 0;
+            int nrMasini = 0;
             int nextIdInchiriere = 1;
             int nextIdMasina = 1;
 
-            Inchiriere[] inchirieri_temp = adminInchirieri.GetInchirieri(out nrInchirieri);
-            if (nrInchirieri != 0)
-                nextIdInchiriere = inchirieri_temp[nrInchirieri - 1].IdInchiriere;
-
-            Masina[] masini_temp = adminMasini.GetMasini(out nrMasini);
-            if (nrMasini != 0)
-                nextIdMasina = masini_temp[nrMasini - 1].IdMasina;
+            update_nr_nextId_inchirieri(ref nrInchirieri, ref nextIdInchiriere, adminInchirieri);
+            update_nr_nextId_masini(ref nrMasini, ref nextIdMasina, adminMasini);
 
             string optiune;
             do
@@ -134,9 +129,7 @@ namespace InchirieriMasini
                             }
                         }
 
-                        inchirieri_temp = adminInchirieri.GetInchirieri(out nrInchirieri);
-                        if (nrInchirieri != 0)
-                            nextIdInchiriere = inchirieri_temp[nrInchirieri - 1].IdInchiriere;
+                        update_nr_nextId_inchirieri(ref nrInchirieri, ref nextIdInchiriere, adminInchirieri);
 
                         inchiriere = new Inchiriere(nextIdInchiriere, idMasina, nume, prenume, dataPreluare, dataReturnare);
                         Console.WriteLine("\nInchirierea a fost salvata temporar.");
@@ -159,11 +152,9 @@ namespace InchirieriMasini
 
                         break;
                     case "S":
-                        inchirieri_temp = adminInchirieri.GetInchirieri(out nrInchirieri);
-                        if (nrInchirieri != 0)
-                            nextIdInchiriere = inchirieri_temp[nrInchirieri - 1].IdInchiriere;
+                        update_nr_nextId_inchirieri(ref nrInchirieri, ref nextIdInchiriere, adminInchirieri);
 
-                        inchiriere.IdInchiriere = nrInchirieri + 1;
+                        inchiriere.IdInchiriere = nextIdInchiriere;
 
                         //adaugare student in fisier
                         adminInchirieri.AddInchiriere(inchiriere);
@@ -249,9 +240,7 @@ namespace InchirieriMasini
                             }
                         }
 
-                        masini_temp = adminMasini.GetMasini(out nrMasini);
-                        if (nrMasini != 0)
-                            nextIdMasina = masini_temp[nrMasini - 1].IdMasina;
+                        update_nr_nextId_masini(ref nrMasini, ref nextIdMasina, adminMasini);
 
                         masina = new Masina(nextIdMasina, marca, model, nrTrepteViteza, anFabricare, pretPerZi, true);
                         Console.WriteLine("\nMasina a fost salvata temporar.");
@@ -274,11 +263,9 @@ namespace InchirieriMasini
 
                         break;
                     case "4":
-                        masini_temp = adminMasini.GetMasini(out nrMasini);
-                        if (nrInchirieri != 0)
-                            nextIdInchiriere = inchirieri_temp[nrInchirieri - 1].IdInchiriere;
+                        update_nr_nextId_masini(ref nrMasini, ref nextIdMasina, adminMasini);
 
-                        masina.IdMasina = nrMasini + 1;
+                        masina.IdMasina = nextIdMasina;
 
                         //adaugare student in fisier
                         adminMasini.AddMasina(masina);
@@ -329,8 +316,26 @@ namespace InchirieriMasini
 
             Console.ReadKey();
         }
+        public static void update_nr_nextId_inchirieri(ref int nrInchirieri, ref int nextIdInchiriere, AdministrareInchirieri adminInchirieri)
+        {
+            Inchiriere[] inchirieri = adminInchirieri.GetInchirieri(out nrInchirieri);
+            if (nrInchirieri != 0)
+                nextIdInchiriere = inchirieri[nrInchirieri - 1].IdInchiriere + 1;
+        }
+
+        public static void update_nr_nextId_masini(ref int nrMasini, ref int nextIdMasina, AdministrareMasini adminMasini)
+        {
+            Masina[] masini = adminMasini.GetMasini(out nrMasini);
+            if (nrMasini != 0)
+                nextIdMasina = masini[nrMasini - 1].IdMasina + 1;
+        }
         public static void AfisareInchirieri(Inchiriere[] inchirieri, int nrInchirieri)
         {
+            if(inchirieri.Length == 0)
+            {
+                Console.WriteLine("Nu sunt inchirieri in fisier. :(");
+                return;
+            }
             Console.WriteLine("Inchirierile sunt:");
             for (int contor = 0; contor < nrInchirieri; contor++)
                 Console.WriteLine(inchirieri[contor].Info());
@@ -338,6 +343,11 @@ namespace InchirieriMasini
 
         public static void AfisareMasini(Masina[] masini, int nrMasini)
         {
+            if (masini.Length == 0)
+            {
+                Console.WriteLine("Nu sunt masini in fisier. :(");
+                return;
+            }
             Console.WriteLine("Masinile sunt:");
             for (int contor = 0; contor < nrMasini; contor++)
                 Console.WriteLine(masini[contor].Info());

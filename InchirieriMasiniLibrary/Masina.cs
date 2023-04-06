@@ -10,13 +10,13 @@ namespace InchirieriMasiniLibrary
     {
         private const char SEPARATOR_PRINCIPAL_FISIER = ';';
 
-        private int idMasina;
-        private string marca;
-        private string model;
-        private int nrTrepteViteza;
-        private int anFabricare;
-        private float pretPerZi;
-        private bool status;
+        public int IdMasina;
+        public string Marca;
+        public string Model;
+        public int NrTrepteViteza;
+        public int AnFabricare;
+        public float PretPerZi;
+        public bool Status;
 
         private const int ID_MASINA = 0;
         private const int MARCA = 1;
@@ -33,7 +33,7 @@ namespace InchirieriMasiniLibrary
             Model = model;
             NrTrepteViteza = nrTrepteViteza;
             AnFabricare = anFabricare;
-            Pret = pretPerZi;
+            PretPerZi = pretPerZi;
             Status = status;
         }
 
@@ -41,26 +41,26 @@ namespace InchirieriMasiniLibrary
         {
             var dateFisier = linieFisier.Split(SEPARATOR_PRINCIPAL_FISIER);
 
-            idMasina = int.Parse(dateFisier[ID_MASINA]);
-            marca = dateFisier[MARCA];
-            model = dateFisier[MODEL];
-            nrTrepteViteza = int.Parse(dateFisier[NR_TREPTE_VITEZA]);
-            anFabricare = int.Parse(dateFisier[AN_FABRICARE]);
-            pretPerZi = float.Parse(dateFisier[PRET_PER_ZI]);
-            status = bool.Parse(dateFisier[STATUS]);
+            IdMasina = int.Parse(dateFisier[ID_MASINA]);
+            Marca = dateFisier[MARCA];
+            Model = dateFisier[MODEL];
+            NrTrepteViteza = int.Parse(dateFisier[NR_TREPTE_VITEZA]);
+            AnFabricare = int.Parse(dateFisier[AN_FABRICARE]);
+            PretPerZi = float.Parse(dateFisier[PRET_PER_ZI]);
+            Status = bool.Parse(dateFisier[STATUS]);
         }
 
         public string ConversieLaSir_PentruFisier()
         {
             string obiectMasinaPentruFisier = string.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}",
                 SEPARATOR_PRINCIPAL_FISIER,
-                idMasina.ToString(),
-                marca,
-                model,
-                nrTrepteViteza.ToString(),
-                anFabricare.ToString(),
-                pretPerZi.ToString(),
-                status.ToString());
+                IdMasina.ToString(),
+                Marca,
+                Model,
+                NrTrepteViteza.ToString(),
+                AnFabricare.ToString(),
+                PretPerZi.ToString(),
+                Status.ToString());
 
             return obiectMasinaPentruFisier;
         }
@@ -68,57 +68,15 @@ namespace InchirieriMasiniLibrary
         public string Info()
         {
             string infoMasina = string.Format("#{0}: {1} {2} - {3} viteze, fabricata in anul {4}, pret per zi: {5}, status: {6}",
-                idMasina.ToString(),
-                marca,
-                model,
-                nrTrepteViteza.ToString(),
-                anFabricare.ToString(),
-                pretPerZi.ToString(),
-                status ? "disponibila" : "indisponibila");
+                IdMasina.ToString(),
+                Marca,
+                Model,
+                NrTrepteViteza.ToString(),
+                AnFabricare.ToString(),
+                PretPerZi.ToString(),
+                Status ? "disponibila" : "indisponibila");
 
             return infoMasina;
-        }
-
-        public int IdMasina
-        {
-            get { return idMasina; }
-            set { idMasina = value; }
-        }
-
-        public string Marca
-        {
-            get { return marca; }
-            set { marca = value; }
-        }
-
-        public string Model
-        {
-            get { return model; }
-            set { model = value; }
-        }
-
-        public int NrTrepteViteza
-        {
-            get { return nrTrepteViteza; }
-            set { nrTrepteViteza = value; }
-        }
-
-        public int AnFabricare
-        {
-            get { return anFabricare; }
-            set { anFabricare = value; }
-        }
-
-        public float Pret
-        {
-            get { return pretPerZi; }
-            set { pretPerZi = value; }
-        }
-
-        public bool Status
-        {
-            get { return status; }
-            set { status = value; }
         }
     }
 }
