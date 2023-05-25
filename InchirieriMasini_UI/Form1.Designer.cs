@@ -68,6 +68,7 @@
             this.lblMesajCauta = new System.Windows.Forms.Label();
             this.txtIdMasinaCauta = new System.Windows.Forms.TextBox();
             this.lblIdMasinaCauta = new System.Windows.Forms.Label();
+            this.labelBlack = new System.Windows.Forms.Label();
             this.gpbProgrameStudiu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -465,11 +466,22 @@
             this.lblIdMasinaCauta.TabIndex = 85;
             this.lblIdMasinaCauta.Text = "ID Masina";
             // 
+            // labelBlack
+            // 
+            this.labelBlack.AutoSize = true;
+            this.labelBlack.Location = new System.Drawing.Point(227, 749);
+            this.labelBlack.Name = "labelBlack";
+            this.labelBlack.Size = new System.Drawing.Size(33, 13);
+            this.labelBlack.TabIndex = 86;
+            this.labelBlack.Text = "blank";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1163, 846);
+            this.Controls.Add(this.labelBlack);
             this.Controls.Add(this.lblIdMasinaCauta);
             this.Controls.Add(this.txtIdMasinaCauta);
             this.Controls.Add(this.lblMesajCauta);
@@ -553,6 +565,7 @@
         private System.Windows.Forms.Label lblMesajCauta;
         private System.Windows.Forms.TextBox txtIdMasinaCauta;
         private System.Windows.Forms.Label lblIdMasinaCauta;
+        private System.Windows.Forms.Label labelBlack;
     }
 }
 

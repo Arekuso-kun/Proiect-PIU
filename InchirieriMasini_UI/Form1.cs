@@ -84,6 +84,8 @@ namespace InchirieriMasini_UI
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            labelBlack.Text = "";
+
             lblMesajCauta.Text = "";
             lblMesajCauta.ForeColor = Color.Red;
 
