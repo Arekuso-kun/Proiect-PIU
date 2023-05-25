@@ -469,7 +469,7 @@
             // labelBlack
             // 
             this.labelBlack.AutoSize = true;
-            this.labelBlack.Location = new System.Drawing.Point(227, 749);
+            this.labelBlack.Location = new System.Drawing.Point(227, 725);
             this.labelBlack.Name = "labelBlack";
             this.labelBlack.Size = new System.Drawing.Size(33, 13);
             this.labelBlack.TabIndex = 86;
