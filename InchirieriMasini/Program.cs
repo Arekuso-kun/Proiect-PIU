@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 using InchirieriMasiniLibrary;
 using InchirieriMasiniDataManagement;
 using System.Globalization;
+using System.IO;
 
 namespace InchirieriMasini
 {
@@ -42,8 +44,16 @@ namespace InchirieriMasini
                 Console.ReadKey();
             }
 
-            AdministrareInchirieri adminInchirieri = new AdministrareInchirieri("Inchirieri.txt");
-            AdministrareMasini adminMasini = new AdministrareMasini("Masini.txt");
+            string NumeFisierInchirieri = ConfigurationManager.AppSettings["NumeFisierInchirieri"];
+            string NumeFisierMasini = ConfigurationManager.AppSettings["NumeFisierMasini"];
+            string locatieFisierSolutie = Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+            // setare locatie fisier in directorul corespunzator solutiei
+            // astfel incat datele din fisier sa poata fi utilizate si de alte proiecte
+            string caleCompletaFisierInchirieri = locatieFisierSolutie + "\\" + NumeFisierInchirieri;
+            string caleCompletaFisierMasini = locatieFisierSolutie + "\\" + NumeFisierMasini;
+
+            AdministrareInchirieri adminInchirieri = new AdministrareInchirieri(caleCompletaFisierInchirieri);
+            AdministrareMasini adminMasini = new AdministrareMasini(caleCompletaFisierMasini);
 
             Inchiriere inchiriere = new Inchiriere();
             Masina masina = new Masina();
@@ -75,7 +85,7 @@ namespace InchirieriMasini
                 Console.WriteLine("5. Cauta masina dupa ID");
                 Console.WriteLine("6. Cauta masina dupa marca si model");
                 Console.WriteLine("\nX. Inchidere program");
-                Console.WriteLine("\nAlegeti o optiune...");
+                Console.Write("\nAlegeti o optiune...");
                 optiune = Console.ReadLine();
                 Console.WriteLine();
                 switch (optiune.ToUpper())
@@ -156,7 +166,6 @@ namespace InchirieriMasini
 
                         inchiriere.IdInchiriere = nextIdInchiriere;
 
-                        //adaugare student in fisier
                         adminInchirieri.AddInchiriere(inchiriere);
                         Console.WriteLine("\nInchirierea a fost salvata in fisier.");
                         Console.ReadKey();
@@ -221,13 +230,13 @@ namespace InchirieriMasini
                             }
                         }
 
-                        int nrTrepteViteza = 0;
+                        bool aerConditionat = false;
                         valid = false;
                         while (!valid)
                         {
                             Console.Write("Introdu numar trepte viteza : ");
                             string inputString = Console.ReadLine();
-                            valid = int.TryParse(inputString, out nrTrepteViteza);
+                            valid = bool.TryParse(inputString, out aerConditionat);
 
                             if (!valid)
                             {
@@ -265,7 +274,7 @@ namespace InchirieriMasini
 
                         update_nr_nextId_masini(ref nrMasini, ref nextIdMasina, adminMasini);
 
-                        masina = new Masina(nextIdMasina, marca, model, culoare, nrTrepteViteza, anFabricare, pretPerZi, true);
+                        masina = new Masina(nextIdMasina, marca, model, culoare, aerConditionat, anFabricare, pretPerZi, true);
                         Console.WriteLine("\nMasina a fost salvata temporar.");
                         Console.ReadKey();
 
