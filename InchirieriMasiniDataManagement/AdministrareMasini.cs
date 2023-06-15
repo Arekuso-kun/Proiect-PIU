@@ -87,5 +87,23 @@ namespace InchirieriMasiniDataManagement
 
             return new Masina();
         }
+
+        public void InlocuiesteMasina(int idMasina, Masina masinaNoua)
+        {
+            string[] liniiFisier = File.ReadAllLines(numeFisier);
+
+            for (int i = 0; i < liniiFisier.Length; i++)
+            {
+                Masina masina = new Masina(liniiFisier[i]);
+
+                if (masina.IdMasina == idMasina)
+                {
+                    liniiFisier[i] = masinaNoua.ConversieLaSir_PentruFisier();
+                    break;
+                }
+            }
+
+            File.WriteAllLines(numeFisier, liniiFisier);
+        }
     }
 }

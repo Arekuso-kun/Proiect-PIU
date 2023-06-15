@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace InchirieriMasini_UI
 {
@@ -49,8 +50,9 @@ namespace InchirieriMasini_UI
         private Label[] lblsAnFabricare;
         private Label[] lblsPretPeZi;
         private Label[] lblsStatus;
-
+        private Button[] btnsSelecteaza;
         private const int LATIME_CONTROL = 130;
+        private const int LATIME_BUTON = 90;
         private const int DIMENSIUNE_PAS_Y = 30;
         private const int DIMENSIUNE_PAS_X = 130;
         private const int OFFSET_Y = 20;
@@ -60,6 +62,11 @@ namespace InchirieriMasini_UI
         private int nrMasini = 0;
         private int nextIdInchiriere = 1;
         private int nextIdMasina = 1;
+
+        private int iDselectat = 0;
+
+        private int WIDTH_MASINI = 1660;
+        private int WIDTH_INCHIRIERI = 1420;
 
         public Form1()
         {
@@ -135,7 +142,7 @@ namespace InchirieriMasini_UI
             //adaugare control de tip Label pentru 'ID Masina';
             lblHeaderIdMasina = new Label();
             lblHeaderIdMasina.Width = LATIME_CONTROL;
-            lblHeaderIdMasina.Text = "ID Masina";
+            lblHeaderIdMasina.Text = "Masina";
             lblHeaderIdMasina.Left = OFFSET_X + 2 * DIMENSIUNE_PAS_X;
             lblHeaderIdMasina.Top = OFFSET_Y;
             lblHeaderIdMasina.ForeColor = Color.DarkBlue;
@@ -145,7 +152,7 @@ namespace InchirieriMasini_UI
             lblHeaderDataPreluare = new Label();
             lblHeaderDataPreluare.Width = LATIME_CONTROL;
             lblHeaderDataPreluare.Text = "Data Preluare";
-            lblHeaderDataPreluare.Left = OFFSET_X + 3 * DIMENSIUNE_PAS_X;
+            lblHeaderDataPreluare.Left = (int)(OFFSET_X + 4 * DIMENSIUNE_PAS_X);
             lblHeaderDataPreluare.Top = OFFSET_Y;
             lblHeaderDataPreluare.ForeColor = Color.DarkBlue;
             this.Controls.Add(lblHeaderDataPreluare);
@@ -154,7 +161,7 @@ namespace InchirieriMasini_UI
             lblHeaderDataReturnare = new Label();
             lblHeaderDataReturnare.Width = LATIME_CONTROL;
             lblHeaderDataReturnare.Text = "Data Preluare";
-            lblHeaderDataReturnare.Left = OFFSET_X + 4 * DIMENSIUNE_PAS_X;
+            lblHeaderDataReturnare.Left = (int)(OFFSET_X + 5 * DIMENSIUNE_PAS_X);
             lblHeaderDataReturnare.Top = OFFSET_Y;
             lblHeaderDataReturnare.ForeColor = Color.DarkBlue;
             this.Controls.Add(lblHeaderDataReturnare);
@@ -192,8 +199,9 @@ namespace InchirieriMasini_UI
 
                 //adaugare control de tip Label pentru id masina
                 lblsIdMasina[i] = new Label();
-                lblsIdMasina[i].Width = LATIME_CONTROL;
-                lblsIdMasina[i].Text = inchiriere.IdMasina.ToString();
+                lblsIdMasina[i].Width = (int)(LATIME_CONTROL + 1 * DIMENSIUNE_PAS_X);
+                Masina masina_afisare = adminMasini.GetMasina(inchiriere.IdMasina);
+                lblsIdMasina[i].Text = masina_afisare.Marca + " " + masina_afisare.Model + " (#" + inchiriere.IdMasina.ToString() + ")";
                 lblsIdMasina[i].Left = OFFSET_X + 2 * DIMENSIUNE_PAS_X;
                 lblsIdMasina[i].Top = OFFSET_Y + (i + 1) * DIMENSIUNE_PAS_Y;
                 this.Controls.Add(lblsIdMasina[i]);
@@ -202,7 +210,7 @@ namespace InchirieriMasini_UI
                 lblsDataPreluare[i] = new Label();
                 lblsDataPreluare[i].Width = LATIME_CONTROL;
                 lblsDataPreluare[i].Text = inchiriere.DataPreluare.ToString("yyyy-MM-dd HH:mm");
-                lblsDataPreluare[i].Left = OFFSET_X + 3 * DIMENSIUNE_PAS_X;
+                lblsDataPreluare[i].Left = (int)(OFFSET_X + 4 * DIMENSIUNE_PAS_X);
                 lblsDataPreluare[i].Top = OFFSET_Y + (i + 1) * DIMENSIUNE_PAS_Y;
                 this.Controls.Add(lblsDataPreluare[i]);
 
@@ -210,7 +218,7 @@ namespace InchirieriMasini_UI
                 lblsDataReturnare[i] = new Label();
                 lblsDataReturnare[i].Width = LATIME_CONTROL;
                 lblsDataReturnare[i].Text = inchiriere.DataReturnare.ToString("yyyy-MM-dd HH:mm");
-                lblsDataReturnare[i].Left = OFFSET_X + 4 * DIMENSIUNE_PAS_X;
+                lblsDataReturnare[i].Left = (int)(OFFSET_X + 5 * DIMENSIUNE_PAS_X);
                 lblsDataReturnare[i].Top = OFFSET_Y + (i + 1) * DIMENSIUNE_PAS_Y;
                 this.Controls.Add(lblsDataReturnare[i]);
 
@@ -222,7 +230,7 @@ namespace InchirieriMasini_UI
         {
             //adaugare control de tip Label pentru 'ID';
             lblHeaderID = new Label();
-            lblHeaderID.Width = LATIME_CONTROL;
+            lblHeaderID.Width = (int)(LATIME_CONTROL - 0.5 * DIMENSIUNE_PAS_X);
             lblHeaderID.Text = "ID";
             lblHeaderID.Left = OFFSET_X + 0 * DIMENSIUNE_PAS_X;
             lblHeaderID.Top = OFFSET_Y;
@@ -233,16 +241,16 @@ namespace InchirieriMasini_UI
             lblHeaderMarca = new Label();
             lblHeaderMarca.Width = LATIME_CONTROL;
             lblHeaderMarca.Text = "Marca";
-            lblHeaderMarca.Left = OFFSET_X + 1 * DIMENSIUNE_PAS_X;
+            lblHeaderMarca.Left = (int)(OFFSET_X + 0.5 * DIMENSIUNE_PAS_X);
             lblHeaderMarca.Top = OFFSET_Y;
             lblHeaderMarca.ForeColor = Color.DarkBlue;
             this.Controls.Add(lblHeaderMarca);
 
             //adaugare control de tip Label pentru 'Model';
             lblHeaderModel = new Label();
-            lblHeaderModel.Width = LATIME_CONTROL;
+            lblHeaderModel.Width = (int)(LATIME_CONTROL + 0.5 * DIMENSIUNE_PAS_X);
             lblHeaderModel.Text = "Model";
-            lblHeaderModel.Left = OFFSET_X + 2 * DIMENSIUNE_PAS_X;
+            lblHeaderModel.Left = (int)(OFFSET_X + 1.5 * DIMENSIUNE_PAS_X);
             lblHeaderModel.Top = OFFSET_Y;
             lblHeaderModel.ForeColor = Color.DarkBlue;
             this.Controls.Add(lblHeaderModel);
@@ -286,7 +294,7 @@ namespace InchirieriMasini_UI
             //adaugare control de tip Label pentru 'Status';
             lblHeaderStatus = new Label();
             lblHeaderStatus.Width = LATIME_CONTROL;
-            lblHeaderStatus.Text = "Disponibil";
+            lblHeaderStatus.Text = "Selecteaza";
             lblHeaderStatus.Left = OFFSET_X + 7 * DIMENSIUNE_PAS_X;
             lblHeaderStatus.Top = OFFSET_Y;
             lblHeaderStatus.ForeColor = Color.DarkBlue;
@@ -303,6 +311,7 @@ namespace InchirieriMasini_UI
             lblsAnFabricare = new Label[NrMasini];
             lblsPretPeZi = new Label[NrMasini];
             lblsStatus = new Label[NrMasini];
+            btnsSelecteaza = new Button[NrMasini];
 
             int i = 0;
             foreach (Masina masina in masini)
@@ -312,26 +321,29 @@ namespace InchirieriMasini_UI
 
                 //adaugare control de tip Label pentru ID;
                 lblsID[i] = new Label();
-                lblsID[i].Width = LATIME_CONTROL;
+                lblsID[i].Width = (int)(LATIME_CONTROL - 0.5 * DIMENSIUNE_PAS_X);
                 lblsID[i].Text = masina.IdMasina.ToString();
                 lblsID[i].Left = OFFSET_X + 0;
                 lblsID[i].Top = OFFSET_Y + (i + 1) * DIMENSIUNE_PAS_Y;
+                lblsID[i].TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 this.Controls.Add(lblsID[i]);
 
                 //adaugare control de tip Label pentru marca;
                 lblsMarca[i] = new Label();
                 lblsMarca[i].Width = LATIME_CONTROL;
                 lblsMarca[i].Text = masina.Marca;
-                lblsMarca[i].Left = OFFSET_X + 1 * DIMENSIUNE_PAS_X;
+                lblsMarca[i].Left = (int)(OFFSET_X + 0.5 * DIMENSIUNE_PAS_X);
                 lblsMarca[i].Top = OFFSET_Y + (i + 1) * DIMENSIUNE_PAS_Y;
+                lblsMarca[i].TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 this.Controls.Add(lblsMarca[i]);
 
                 //adaugare control de tip Label pentru model
                 lblsModel[i] = new Label();
-                lblsModel[i].Width = LATIME_CONTROL;
+                lblsModel[i].Width = (int)(LATIME_CONTROL + 0.5 * DIMENSIUNE_PAS_X);
                 lblsModel[i].Text = masina.Model;
-                lblsModel[i].Left = OFFSET_X + 2 * DIMENSIUNE_PAS_X;
+                lblsModel[i].Left = (int)(OFFSET_X + 1.5 * DIMENSIUNE_PAS_X);
                 lblsModel[i].Top = OFFSET_Y + (i + 1) * DIMENSIUNE_PAS_Y;
+                lblsModel[i].TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 this.Controls.Add(lblsModel[i]);
 
                 //adaugare control de tip Label pentru culoare
@@ -340,14 +352,16 @@ namespace InchirieriMasini_UI
                 lblsCuloare[i].Text = ((Masina.Culori)masina.Culoare).ToString();
                 lblsCuloare[i].Left = OFFSET_X + 3 * DIMENSIUNE_PAS_X;
                 lblsCuloare[i].Top = OFFSET_Y + (i + 1) * DIMENSIUNE_PAS_Y;
+                lblsCuloare[i].TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 this.Controls.Add(lblsCuloare[i]);
 
-                //adaugare control de tip Label pentru AC
+                //adaugare control de tip Label pentru 
                 lblsAerConditionat[i] = new Label();
                 lblsAerConditionat[i].Width = LATIME_CONTROL;
                 lblsAerConditionat[i].Text = (masina.AerConditionat ? "DA" : "NU");
                 lblsAerConditionat[i].Left = OFFSET_X + 4 * DIMENSIUNE_PAS_X;
                 lblsAerConditionat[i].Top = OFFSET_Y + (i + 1) * DIMENSIUNE_PAS_Y;
+                lblsAerConditionat[i].TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 this.Controls.Add(lblsAerConditionat[i]);
 
                 //adaugare control de tip Label pentru an fabricare
@@ -356,6 +370,7 @@ namespace InchirieriMasini_UI
                 lblsAnFabricare[i].Text = masina.AnFabricare.ToString();
                 lblsAnFabricare[i].Left = OFFSET_X + 5 * DIMENSIUNE_PAS_X;
                 lblsAnFabricare[i].Top = OFFSET_Y + (i + 1) * DIMENSIUNE_PAS_Y;
+                lblsAnFabricare[i].TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 this.Controls.Add(lblsAnFabricare[i]);
 
                 //adaugare control de tip Label pentru pret
@@ -364,18 +379,37 @@ namespace InchirieriMasini_UI
                 lblsPretPeZi[i].Text = masina.PretPerZi.ToString() + " RON";
                 lblsPretPeZi[i].Left = OFFSET_X + 6 * DIMENSIUNE_PAS_X;
                 lblsPretPeZi[i].Top = OFFSET_Y + (i + 1) * DIMENSIUNE_PAS_Y;
+                lblsPretPeZi[i].TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
                 this.Controls.Add(lblsPretPeZi[i]);
 
-                //adaugare control de tip Label pentru stats
+                btnsSelecteaza[i] = new Button();
                 lblsStatus[i] = new Label();
-                lblsStatus[i].Width = LATIME_CONTROL;
-                lblsStatus[i].Text = (masina.Status ? "DA" : "NU");
-                lblsStatus[i].Left = OFFSET_X + 7 * DIMENSIUNE_PAS_X;
-                lblsStatus[i].Top = OFFSET_Y + (i + 1) * DIMENSIUNE_PAS_Y;
-                this.Controls.Add(lblsStatus[i]);
-
+                if (masina.Status)
+                {
+                    btnsSelecteaza[i].Width = LATIME_BUTON;
+                    btnsSelecteaza[i].Text = "Selecteaza";
+                    btnsSelecteaza[i].Left = OFFSET_X + 7 * DIMENSIUNE_PAS_X;
+                    btnsSelecteaza[i].Top = OFFSET_Y + (i + 1) * DIMENSIUNE_PAS_Y;
+                    btnsSelecteaza[i].Click += (sender, e) => SelectButton_Click(sender, e, masina);
+                    this.Controls.Add(btnsSelecteaza[i]);
+                }
+                else
+                {
+                    btnsSelecteaza[i].Width = LATIME_BUTON;
+                    btnsSelecteaza[i].Text = "Indisponibil";
+                    btnsSelecteaza[i].Left = OFFSET_X + 7 * DIMENSIUNE_PAS_X;
+                    btnsSelecteaza[i].Top = OFFSET_Y + (i + 1) * DIMENSIUNE_PAS_Y;
+                    btnsSelecteaza[i].Enabled = false;
+                    this.Controls.Add(btnsSelecteaza[i]);
+                }
                 i++;
             }
+        }
+
+        private void SelectButton_Click(object sender, EventArgs e, Masina masina)
+        {
+            iDselectat = masina.IdMasina;
+            txtMasina.Text = masina.Marca + " " + masina.Model;
         }
 
         private void BtnAdaugaInchiriere_Click(object sender, EventArgs e)
@@ -384,9 +418,14 @@ namespace InchirieriMasini_UI
 
             update_nr_nextId_inchirieri(ref nrInchirieri, ref nextIdInchiriere, adminInchirieri);
 
-            Inchiriere inchiriere = new Inchiriere(nextIdInchiriere, int.Parse(txtIDmasina.Text), txtNume.Text, txtPrenume.Text, DateTime.Parse(pkrDataPreluare.Text), DateTime.Parse(pkrDataReturnare.Text));
+            Inchiriere inchiriere = new Inchiriere(nextIdInchiriere, iDselectat, txtNume.Text, txtPrenume.Text, DateTime.Parse(pkrDataPreluare.Text), DateTime.Parse(pkrDataReturnare.Text));
 
             adminInchirieri.AddInchiriere(inchiriere);
+
+            Masina masina_temp = adminMasini.GetMasina(iDselectat);
+            masina_temp.Status = false;
+            adminMasini.InlocuiesteMasina(iDselectat, masina_temp);
+
             lblMesajInchirieri.Text = "Inchirierea a fost adaugata";
             lblMesajInchirieri.ForeColor = Color.Green;
 
@@ -445,23 +484,15 @@ namespace InchirieriMasini_UI
                 lblPrenume.ForeColor = Color.Blue;
             }
 
-            if (!int.TryParse(txtIDmasina.Text, out int idMasina))
+            if (iDselectat == 0)
             {
-                lblIDmasina.ForeColor = Color.Red;
+                lblMasina.ForeColor = Color.Red;
                 ok = false;
-                mesaj_eroare += "ID masina invalid!\n";
+                mesaj_eroare += "Masina nu a fost selectata!\n";
             }
             else
             {
-                Masina masina = adminMasini.GetMasina(idMasina);
-                if (masina.IdMasina != 0)
-                    lblIDmasina.ForeColor = Color.Blue;
-                else
-                {
-                    lblIDmasina.ForeColor = Color.Red;
-                    ok = false;
-                    mesaj_eroare += "Masina nu exista!\n";
-                }
+                lblMasina.ForeColor = Color.Blue;
             }
 
             DateTime currentDate = DateTime.Now;
@@ -486,6 +517,17 @@ namespace InchirieriMasini_UI
                     lblDataRet.ForeColor = Color.Red;
                     ok = false;
                     mesaj_eroare += "Data returnare invalida!\n";
+                }
+                else
+                {
+                    lblDataRet.ForeColor = Color.Blue;
+                }
+
+                if (dataPreluare.Date < currentDate.Date)
+                {
+                    lblDataPrel.ForeColor = Color.Red;
+                    ok = false;
+                    mesaj_eroare += "Data preluare invalida!\n";
                 }
                 else
                 {
@@ -590,7 +632,8 @@ namespace InchirieriMasini_UI
 
         private void ResetareControaleInchirieri()
         {
-            txtNume.Text = txtPrenume.Text = txtIDmasina.Text = string.Empty;
+            txtNume.Text = txtPrenume.Text = txtMasina.Text = string.Empty;
+            iDselectat = 0;
 
             /*lblMesajInchirieri.Text = string.Empty;*/
 
@@ -643,14 +686,14 @@ namespace InchirieriMasini_UI
         {
             ClearTable();
             AfiseazaInchirieri();
-            this.Width = 1300;
+            this.Width = WIDTH_INCHIRIERI;
         }
 
         private void BtnAfiseazaMasini_Click(object sender, EventArgs e)
         {
             ClearTable();
             AfiseazaMasini();
-            this.Width = 1660;
+            this.Width = WIDTH_MASINI;
         }
 
         public static void update_nr_nextId_inchirieri(ref int nrInchirieri, ref int nextIdInchiriere, AdministrareInchirieri adminInchirieri)
@@ -726,6 +769,9 @@ namespace InchirieriMasini_UI
 
             foreach (Label lbl in lblsStatus)
                 lbl.Visible = isVisible;
+
+            foreach (Button btn in btnsSelecteaza)
+                btn.Visible = isVisible;
         }
 
         private void btnCauta_Click(object sender, EventArgs e)

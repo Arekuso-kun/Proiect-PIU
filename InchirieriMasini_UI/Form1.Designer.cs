@@ -45,8 +45,8 @@
             this.btnAdaugaInchiriere = new System.Windows.Forms.Button();
             this.lblPrenume = new System.Windows.Forms.Label();
             this.lblNume = new System.Windows.Forms.Label();
-            this.txtIDmasina = new System.Windows.Forms.TextBox();
-            this.lblIDmasina = new System.Windows.Forms.Label();
+            this.txtMasina = new System.Windows.Forms.TextBox();
+            this.lblMasina = new System.Windows.Forms.Label();
             this.txtModel = new System.Windows.Forms.TextBox();
             this.txtMarca = new System.Windows.Forms.TextBox();
             this.lblModel = new System.Windows.Forms.Label();
@@ -69,6 +69,7 @@
             this.txtIdMasinaCauta = new System.Windows.Forms.TextBox();
             this.lblIdMasinaCauta = new System.Windows.Forms.Label();
             this.labelBlack = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.gpbProgrameStudiu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -261,22 +262,23 @@
             this.lblNume.TabIndex = 44;
             this.lblNume.Text = "Nume";
             // 
-            // txtIDmasina
+            // txtMasina
             // 
-            this.txtIDmasina.Location = new System.Drawing.Point(124, 67);
-            this.txtIDmasina.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtIDmasina.Name = "txtIDmasina";
-            this.txtIDmasina.Size = new System.Drawing.Size(277, 20);
-            this.txtIDmasina.TabIndex = 59;
+            this.txtMasina.Location = new System.Drawing.Point(124, 67);
+            this.txtMasina.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtMasina.Name = "txtMasina";
+            this.txtMasina.ReadOnly = true;
+            this.txtMasina.Size = new System.Drawing.Size(197, 20);
+            this.txtMasina.TabIndex = 59;
             // 
-            // lblIDmasina
+            // lblMasina
             // 
-            this.lblIDmasina.AutoSize = true;
-            this.lblIDmasina.Location = new System.Drawing.Point(23, 70);
-            this.lblIDmasina.Name = "lblIDmasina";
-            this.lblIDmasina.Size = new System.Drawing.Size(95, 13);
-            this.lblIDmasina.TabIndex = 60;
-            this.lblIDmasina.Text = "Masina aleasa (ID)";
+            this.lblMasina.AutoSize = true;
+            this.lblMasina.Location = new System.Drawing.Point(43, 70);
+            this.lblMasina.Name = "lblMasina";
+            this.lblMasina.Size = new System.Drawing.Size(75, 13);
+            this.lblMasina.TabIndex = 60;
+            this.lblMasina.Text = "Masina aleasa";
             // 
             // txtModel
             // 
@@ -475,12 +477,24 @@
             this.labelBlack.TabIndex = 86;
             this.labelBlack.Text = "blank";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(327, 66);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(74, 22);
+            this.button1.TabIndex = 87;
+            this.button1.Text = "Selecteaza";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.BtnAfiseazaMasini_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1163, 846);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.labelBlack);
             this.Controls.Add(this.lblIdMasinaCauta);
             this.Controls.Add(this.txtIdMasinaCauta);
@@ -503,8 +517,8 @@
             this.Controls.Add(this.txtMarca);
             this.Controls.Add(this.lblModel);
             this.Controls.Add(this.lblMarca);
-            this.Controls.Add(this.lblIDmasina);
-            this.Controls.Add(this.txtIDmasina);
+            this.Controls.Add(this.lblMasina);
+            this.Controls.Add(this.txtMasina);
             this.Controls.Add(this.gpbProgrameStudiu);
             this.Controls.Add(this.lblCuloare);
             this.Controls.Add(this.lblMesajInchirieri);
@@ -537,8 +551,8 @@
         private System.Windows.Forms.Button btnAdaugaInchiriere;
         private System.Windows.Forms.Label lblPrenume;
         private System.Windows.Forms.Label lblNume;
-        private System.Windows.Forms.TextBox txtIDmasina;
-        private System.Windows.Forms.Label lblIDmasina;
+        private System.Windows.Forms.TextBox txtMasina;
+        private System.Windows.Forms.Label lblMasina;
         private System.Windows.Forms.TextBox txtModel;
         private System.Windows.Forms.TextBox txtMarca;
         private System.Windows.Forms.Label lblModel;
@@ -566,6 +580,7 @@
         private System.Windows.Forms.TextBox txtIdMasinaCauta;
         private System.Windows.Forms.Label lblIdMasinaCauta;
         private System.Windows.Forms.Label labelBlack;
+        private System.Windows.Forms.Button button1;
     }
 }
 
