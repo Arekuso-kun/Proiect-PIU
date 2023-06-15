@@ -414,7 +414,7 @@
             // checkBoxAC
             // 
             this.checkBoxAC.AutoSize = true;
-            this.checkBoxAC.Location = new System.Drawing.Point(150, 409);
+            this.checkBoxAC.Location = new System.Drawing.Point(141, 409);
             this.checkBoxAC.Name = "checkBoxAC";
             this.checkBoxAC.Size = new System.Drawing.Size(98, 17);
             this.checkBoxAC.TabIndex = 80;
@@ -424,11 +424,11 @@
             // checkBoxStatus
             // 
             this.checkBoxStatus.AutoSize = true;
-            this.checkBoxStatus.Location = new System.Drawing.Point(296, 409);
+            this.checkBoxStatus.Location = new System.Drawing.Point(277, 409);
             this.checkBoxStatus.Name = "checkBoxStatus";
-            this.checkBoxStatus.Size = new System.Drawing.Size(71, 17);
+            this.checkBoxStatus.Size = new System.Drawing.Size(114, 17);
             this.checkBoxStatus.TabIndex = 81;
-            this.checkBoxStatus.Text = "Disponibil";
+            this.checkBoxStatus.Text = "Masina Disponibila";
             this.checkBoxStatus.UseVisualStyleBackColor = true;
             // 
             // btnCauta
